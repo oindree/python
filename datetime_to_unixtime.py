@@ -2,13 +2,14 @@ import time
 import datetime
 from datetime import date
 from time import mktime
+import calendar
 import numpy
 
 def main():
   rows = 17
   columns = 2
   datetimelist = numpy.zeros((rows, columns))
-  #Date   UTT(Trigger) ## UTT???
+  #Date   UTT(Trigger)
   datetimelist = [["2014,12,21","8:07:10"],
    ["2014,12,21","21:31:48"],
    ["2014,12,22","7:08:55"],
@@ -27,17 +28,27 @@ def main():
    ["2015,01,05","6:10:00"],
    ["2015,01,06","22:05:56"]]
 
-  print "GRB times in unixtime"
+  print "GRB times in UTC unixtime"
 
   for i in range(rows):
     stringdate = datetimelist[i][0]
     #print stringdate
     stringtime = datetimelist[i][1]
     #print stringtime
-    unixtime = time.mktime(datetime.datetime.strptime(stringdate, "%Y,%m,%d").timetuple())
+    objectdate = date(*map(int, (stringdate.split(","))))
+    assert objectdate == datetime.datetime.strptime(stringdate, "%Y,%m,%d").date()
+    unixtime = calendar.timegm(objectdate.timetuple())
+    #unixtime = time.mktime(datetime.datetime.strptime(stringdate, "%Y,%m,%d").timetuple())
     #print unixtime
     timeseconds = sum(int(x) * 60 ** i for i,x in enumerate(reversed(stringtime.split(":"))))
     unixtime = unixtime + timeseconds
     print unixtime
 
 main()
+
+
+
+
+
+
+
