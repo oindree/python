@@ -1,5 +1,4 @@
 #sudo pip install --no-deps astropy
-#need to make changes to implement for anita
 
 import time
 import datetime
