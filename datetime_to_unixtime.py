@@ -1,5 +1,3 @@
-#sudo pip install --no-deps astropy
-
 import time
 import datetime
 from datetime import date
