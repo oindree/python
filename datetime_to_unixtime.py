@@ -10,7 +10,8 @@ def main():
   columns = 2
   datetimelist = numpy.zeros((rows, columns))
   #Date   UTT(Trigger)
-  datetimelist = [["2014,12,21","8:07:10"],
+  datetimelist = [["2014,12,20","6:02:51"],
+   ["2014,12,21","8:07:10"],
    ["2014,12,21","21:31:48"],
    ["2014,12,22","7:08:55"],
    ["2014,12,22","16:34:30"],
