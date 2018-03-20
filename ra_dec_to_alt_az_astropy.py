@@ -1,28 +1,43 @@
 #sudo pip install --no-deps astropy
-#need to make changes to implement for anita
+
+#things I need
+#anita lon, lat, alt, grb_time, grb_date, grb_ra, grb_dec
 
 from astropy.coordinates import EarthLocation, SkyCoord, AltAz
 from astropy.time import Time
 from astropy import units as u
 from astropy.coordinates import AltAz
+import numpy as np
+import pandas as pd
 
 def main():
 
-#Figure out ANITA longitude, latitude, altitude at the begin time of the GRB
-	Anita_location = EarthLocation(lon='-109.70392',lat='-89.8105588',height=2649.85*u.m)
+  grb_list = pd.read_csv('/Users/oindreebanerjee/python/A3_GRB_List_For_Astropy.csv')
 
-#GRB time
-	time = Time('2013-01-04 17:18:07')
+  print grb_list
 
-#Telling it the frame
-	Anita_frame = AltAz(location=Anita_location, obstime=time)
+  #print grb_list.loc[: , "GRB_RA"][4]
 
-#getting the coordinates
-	coord = SkyCoord(ra = 174.09 * u.degree, dec = 25.92 * u.degree)
+  #print grb_list.shape
 
-#getting the coordinates in the Anita frame
-	coordAnita = coord.transform_to(Anita_frame)
+  for i in range(0,grb_list.shape[0]):
+    #print grb_list.loc[: , "GRB_RA"][i]
+    Anita_location = EarthLocation(lon = grb_list.loc[: , "ANITA_Longitude_Begin"][i], lat = grb_list.loc[: , "ANITA_Latitude_Begin"][i], height = grb_list.loc[: , "ANITA_Altitude_Begin"][i] * u.m)
 
-	print coordAnita
+    #print Anita_location
+
+    time_string = grb_list.loc[: , "Date"][i] + " " + grb_list.loc[: , "Time"][i]
+    #print time_string
+
+    grb_time = Time(time_string)
+    #print grb_time
+
+    Anita_frame = AltAz(location = Anita_location, obstime = grb_time)
+
+    coord = SkyCoord(grb_list.loc[: , "GRB_RA"][i] * u.degree, grb_list.loc[: , "GRB_Dec"][i] * u.degree)
+
+    coordAnita = coord.transform_to(Anita_frame)
+
+    print "Azimuth: ", coordAnita.az.degree, " Altitude: ", coordAnita.alt.degree
 
 main()

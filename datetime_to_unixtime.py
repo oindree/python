@@ -6,7 +6,7 @@ import calendar
 import numpy
 
 def main():
-  rows = 17
+  rows = 18
   columns = 2
   datetimelist = numpy.zeros((rows, columns))
   #Date   UTT(Trigger)
